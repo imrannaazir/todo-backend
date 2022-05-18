@@ -50,6 +50,18 @@ async function run() {
             const result = await taskCollection.deleteOne(query);
             res.send(result);
         })
+        //put api
+        app.put('/tasks/:id', async (req, res) => {
+            const updatedTask = req.body;
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const option = { upsert: true }
+            const updatedDoc = {
+                $set: updatedTask
+            }
+            const result = await taskCollection.updateOne(query, updatedDoc, option)
+            res.send(result)
+        })
 
     }
     finally {
